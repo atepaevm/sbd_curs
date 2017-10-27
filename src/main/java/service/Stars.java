@@ -19,13 +19,14 @@ public class Stars {
             @Column(name = "longtitude")
     }
     )*/
+    /*
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name="latitude",column=@Column(name="latitude")),
             @AttributeOverride(name="longtitude",column=@Column(name="longtitude"))
-    })
+    })*/
     @Column(name="star_coordinates")
-    @Type(type="service.CoordsType")
+    @Type(type="service.CoordsUserType")
     private Coords star_coodinates;
     @Column(name="star_size")
     private Float star_size;
@@ -41,12 +42,14 @@ public class Stars {
     public void setStar_mass(Float id){this.star_mass=id;}
     public void setStar_distnace_from_sun(Float id){this.star_distnace_from_sun=id;}
 
-    Integer getObject_id(){return object_id;}
-    Integer getGalaxy_id(){return galaxy_id;}
-    Coords getStar_coodinates(){return star_coodinates;}
-    Float getStar_size(){return star_size;}
-    Float getStar_mass(){return star_mass;}
-    Float getStar_distnace_from_sun(){return star_distnace_from_sun;}
+    public Integer getObject_id(){return object_id;}
+    public Integer getGalaxy_id(){return galaxy_id;}
+    public Coords getStar_coodinates(){
+        return star_coodinates;
+    }
+    public Float getStar_size(){return star_size;}
+    public Float getStar_mass(){return star_mass;}
+    public Float getStar_distnace_from_sun(){return star_distnace_from_sun;}
 
     @Override
     public String toString(){return "id: "+this.getObject_id()+" galaxy id: "+this.getGalaxy_id();}

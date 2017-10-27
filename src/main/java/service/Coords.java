@@ -5,12 +5,12 @@ import javax.persistence.Embeddable;
 /**
  * Created by 12 on 24.10.2017.
  */
-@Embeddable
+
 public class Coords{
-    @Column(name="latitude")
+
     private Float latitude;
-    @Column(name="longtitude")
     private Float longtitude;
+
     public Coords(Float latitude,Float longtitude){
         this.latitude=latitude;
         this.longtitude=longtitude;
@@ -22,7 +22,7 @@ public class Coords{
     public void setLongtitude(Float longtitude){this.longtitude=longtitude;}
     @Override
     public String toString(){
-        return "X: "+latitude.toString()+"Y: "+longtitude.toString();
+        return "X: "+latitude.toString()+" Y: "+longtitude.toString();
     }
     @Override
     public int hashCode(){
