@@ -2,6 +2,7 @@ package service.galaxies;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import service.objectCommon.ObjectCommon;
 import service.stars.Stars;
 
 import java.util.List;
@@ -12,26 +13,17 @@ public class Galaxies_DAO_Impl implements Galaxies_DAO {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-/*
-    public List<Integer> save(Galaxies obj) {
-        Session session = this.sessionFactory.openSession();
-        List<Integer> res = session.createSQLQuery("SELECT * FROM galaxy_insert(:id, :name, (:long, :lat))")
-                .setParameter("id", obj.getTypeId())
-                .setParameter("name", obj.getName())
-                .setParameter("long", obj.getCoords().getLongtitude())
-                .setParameter("lat", obj.getCoords().getLatitude())
-                .list();
-        session.close();
-        return res;
-    }
-*/
 
-    public void save(Galaxies p) {
+    public void save(ObjectCommon objectCommon, Galaxies galaxy) {
         Session session = this.sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.createSQLQuery("INSERT INTO galaxies (object_id, galaxy_coordinates" +
-                "VALUES ("+p.getObject_id()+","+p.getCoords().toDBString()+";").executeUpdate();
-        tx.commit();
+        Integer res = (Integer)session.createSQLQuery("SELECT * FROM galaxy_insert(:type, :name, (:long, :lat))")
+                .setParameter("type",objectCommon.getType_id())
+                .setParameter("name", objectCommon.getObject_name())
+                .setParameter("long", galaxy.getCoords().getLongtitude())
+                .setParameter("lat", galaxy.getCoords().getLatitude())
+                .list().get(0);
+        galaxy.setObject_id(res);
+        objectCommon.setObject_id(res);
         session.close();
     }
 
@@ -47,12 +39,8 @@ public class Galaxies_DAO_Impl implements Galaxies_DAO {
 
     public void delete(Galaxies obj) {
         Session session = this.sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        Object persistentInstance = session.load(Galaxies.class, obj.getObject_id());
-        if (persistentInstance != null) {
-            session.delete(persistentInstance);
-        }
-        tx.commit();
+        session.createSQLQuery("SELECT delete_galaxy(:id);")
+                .setParameter("id", obj.getObject_id()).list();
         session.close();
     }
 
@@ -63,7 +51,7 @@ public class Galaxies_DAO_Impl implements Galaxies_DAO {
     }
     public List<Galaxies> list() {
         Session session = this.sessionFactory.openSession();
-        List<Galaxies> list = session.createQuery("from Galaxies").list();
+        List<Galaxies> list = session.createQuery("from Galaxies ORDER BY object_id").list();
         session.close();
         return list;
     }

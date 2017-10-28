@@ -1,7 +1,5 @@
 package service.stars;
-
-import org.hibernate.annotations.Type;
-import service.coords.Coords;
+import service.coords.CoordsEmbedded;
 
 import javax.persistence.*;
 
@@ -9,14 +7,17 @@ import javax.persistence.*;
 @Table(name="stars")
 public class Stars {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="object_id")
     private Integer object_id;
     @Column(name="galaxy_id")
     private Integer galaxy_id;
     @Column(name="star_coordinates")
-    @Type(type="service.coords.CoordsUserType")
-    private Coords star_coodinates;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="latitude", column = @Column(name="star_coordinates.latitude")),
+            @AttributeOverride(name="longtitude", column = @Column(name="star_coordinates.longtitude"))
+    })
+    private CoordsEmbedded star_coodinates;
     @Column(name="star_size")
     private Float star_size;
     @Column(name="star_mass")
@@ -24,16 +25,25 @@ public class Stars {
     @Column(name="star_distance_from_sun")
     private Float star_distnace_from_sun;
 
+    public Stars(){};
+    public Stars(Integer galaxyId, CoordsEmbedded starCoords, Float starSize, Float starMass, Float starDist){
+        this.galaxy_id = galaxyId;
+        this.star_coodinates = starCoords;
+        this.star_size = starSize;
+        this.star_mass = starMass;
+        this.star_distnace_from_sun = starDist;
+    }
+
     public void setObject_id(Integer id){this.object_id=id;}
     public void setGalaxy_id(Integer id){this.galaxy_id=id;}
-    public void setStar_coodinates(Coords id){this.star_coodinates=id;}
+    public void setStar_coodinates(CoordsEmbedded id){this.star_coodinates=id;}
     public void setStar_size(Float id){this.star_size=id;}
     public void setStar_mass(Float id){this.star_mass=id;}
     public void setStar_distnace_from_sun(Float id){this.star_distnace_from_sun=id;}
 
     public Integer getObject_id(){return object_id;}
     public Integer getGalaxy_id(){return galaxy_id;}
-    public Coords getStar_coodinates(){
+    public CoordsEmbedded getStar_coodinates(){
         return star_coodinates;
     }
     public Float getStar_size(){return star_size;}

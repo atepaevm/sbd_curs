@@ -3,36 +3,104 @@ package main;
 import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import service.Objects_Classes.Objects_Classes_DAO;
-import service.coords.Coords;
+import service.coords.CoordsEmbedded;
 import service.galaxies.Galaxies;
+import service.objectClass.ObjectClass;
+import service.objectClass.ObjectClassDAO;
 import service.galaxies.Galaxies_DAO;
-import service.objects_scientists.Objects_Scientists_DAO;
-import service.objects_scientists.Objects_scientists;
-import service.objects_types.Objects_Types_DAO;
-import service.objects_types.Objects_types;
+import service.objectCommon.ObjectCommon;
+import service.objectCommon.ObjectCommonDAO;
+import service.objectType.ObjectType;
+import service.objectType.ObjectTypeDAO;
 import service.rolling_objects.Rolling_Objects;
 import service.rolling_objects.Rolling_Objects_DAO;
+import service.stars.Stars;
 import service.stars.Stars_DAO;
+import view.ObjectTypeView;
 
 public class Main {
+
+    public static void printObjectType(ObjectType type, ObjectClassDAO objDao){
+        ObjectClass objectClass = objDao.findOne(type.getObject_class_id());
+        ObjectTypeView view = new ObjectTypeView(objectClass, type);
+        System.out.println(view);
+    }
+
+    public static Galaxies createNewGalaxy(Galaxies_DAO galaxiesDao, Integer type, String name, CoordsEmbedded coords){
+        ObjectCommon objectCommon = new ObjectCommon(name, type);
+        Galaxies galaxy = new Galaxies(coords);
+        galaxiesDao.save(objectCommon, galaxy);
+        return galaxy;
+    }
+
+    public static Rolling_Objects createNewRollingObject(Rolling_Objects_DAO rollingObjectsDao, String name, Integer type, Integer orbitsAround){
+        ObjectCommon objectCommon = new ObjectCommon(name, type);
+        Rolling_Objects rollingObject;
+        if(orbitsAround != null){
+            rollingObject = new Rolling_Objects(orbitsAround);
+        } else {
+            rollingObject = new Rolling_Objects();
+        }
+        rollingObjectsDao.save(objectCommon, rollingObject);
+        return rollingObject;
+    }
+
+    public static Stars createNewStar(Stars_DAO starsDao, String name, Integer type, Integer galaxyId, CoordsEmbedded starCoords, Float distFromSun, Float size, Float mass){
+        ObjectCommon objectCommon = new ObjectCommon(name, type);
+        Stars star = new Stars(galaxyId, starCoords, size, mass, distFromSun);
+        starsDao.save(objectCommon, star);
+        return star;
+    }
+
+    public static void printList(List list){
+        for(Object o: list){
+            System.out.println(o);
+        }
+    }
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
         Stars_DAO starsDao = context.getBean(Stars_DAO.class);
         Galaxies_DAO galaxyDao=context.getBean(Galaxies_DAO.class);
-        Objects_Classes_DAO obj_dao=context.getBean(Objects_Classes_DAO.class);
+        ObjectClassDAO obj_dao=context.getBean(ObjectClassDAO.class);
         Rolling_Objects_DAO roll_dao=context.getBean(Rolling_Objects_DAO.class);
-        Objects_Types_DAO types_dao=context.getBean(Objects_Types_DAO.class);
-        Objects_Scientists_DAO sci_dao=context.getBean(Objects_Scientists_DAO.class);
-        List<Objects_scientists> list =sci_dao.list();
-        //Galaxies g=galaxyDao.read(list.get(0));
-        //g.setGalaxy_coordinates(new Coords(new Float(1),new Float(1)));
-        //galaxyDao.update(g);
-        //list =galaxyDao.list();
-        for(Objects_scientists p : list){
+        ObjectTypeDAO types_dao=context.getBean(ObjectTypeDAO.class);
+        ObjectCommonDAO objCommon = context.getBean(ObjectCommonDAO.class);
+
+
+        /*
+        List<ObjectCommon> list = objCommon.list();
+        for(ObjectCommon p : list){
             System.out.println(p);
-        }
+        }*/
+
+        /*List<ObjectType> list = types_dao.list();
+        List<ObjectType> list = types_dao.list();
+        for(ObjectType p : list){
+            printObjectType(p, obj_dao);
+        }*/
+
+
+        /*
+        List<Galaxies> list = galaxyDao.list();
+        printList(list);
+        Galaxies g = list.get(0);
+        g.setGalaxy_coordinates(new Coords(2.5f,2.5f));
+        galaxyDao.update(g);
+        printList(list);
+        */
+
+        /*
+        List<Galaxies> list = galaxyDao.list();
+        printList(list);
+        galaxyDao.delete(list.get(3));
+        list = galaxyDao.list();
+        printList(list);
+        */
+
+        Stars star = createNewStar(starsDao, "Звезда", 7, 17, new CoordsEmbedded(0.5f, 2.5f), 2.0f, 2f, 1.4f);
+        System.out.println(star);
+
         /*
         System.out.println("saving:");
         Stars star=new Stars();

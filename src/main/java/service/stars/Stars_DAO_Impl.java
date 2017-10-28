@@ -3,6 +3,7 @@ package service.stars;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import service.objectCommon.ObjectCommon;
 
 import java.util.List;
 
@@ -11,19 +12,23 @@ import java.util.List;
  */
 public class Stars_DAO_Impl implements Stars_DAO{
     private SessionFactory sessionFactory;
-
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     //@Override
-    public void save(Stars p) {
+    public void save(ObjectCommon objectCommon, Stars star){
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        session.createSQLQuery("INSERT INTO stars (object_id, galaxy_id,star_coordinates,star_size,star_mass,star_distance_from_sun)" +
-               "VALUES ("+p.getObject_id()+","+p.getGalaxy_id()+","+p.getStar_coodinates().toDBString()+","+p.getStar_size()
-                +","+p.getStar_mass()+","+p.getStar_distnace_from_sun()+";").executeUpdate();
-        //session.persist(p);
+        Integer id = (Integer) session.save(objectCommon);
+        if(id == null){
+            tx.rollback();
+            session.close();
+            return;
+        }
+        objectCommon.setObject_id(id);
+        star.setObject_id(id);
+        session.save(star);
         tx.commit();
         session.close();
     }

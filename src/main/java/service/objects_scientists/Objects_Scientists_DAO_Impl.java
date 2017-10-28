@@ -3,7 +3,6 @@ package service.objects_scientists;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import service.Objects_Classes.Objects_Classes;
 
 import java.util.List;
 
@@ -58,11 +57,13 @@ public class Objects_Scientists_DAO_Impl implements Objects_Scientists_DAO {
         return (Objects_scientists) session.load(Objects_scientists.class, obj.getObject_id());
     }
 
+    /*
     public Objects_Classes read(Objects_Classes p){
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         return (Objects_Classes) session.load(Objects_Classes.class, p.getObject_class_id());
-    }
+    }*/
+
     @SuppressWarnings("unchecked")
     //@Override
     public List<Objects_scientists> list() {

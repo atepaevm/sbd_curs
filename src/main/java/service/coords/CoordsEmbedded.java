@@ -1,26 +1,38 @@
 package service.coords;
 
-/**
- * Created by 12 on 24.10.2017.
- */
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-public class Coords{
-
+@Embeddable
+public class CoordsEmbedded {
+    @Column(name="latitude", nullable = false)
     private Float latitude;
+    @Column(name="longtitude", nullable = false)
     private Float longtitude;
 
-    public Coords(Float latitude,Float longtitude){
-        this.latitude=latitude;
-        this.longtitude=longtitude;
+    public CoordsEmbedded(){}
+
+    public CoordsEmbedded(Float longtitude, Float latitude){
+        this.latitude = latitude;
+        this.longtitude = longtitude;
     }
-    public Coords(){}
-    public Float getLatitude(){return latitude;}
-    public Float getLongtitude(){return longtitude;}
-    public void setLatitude(Float latitude){this.latitude=latitude;}
-    public void setLongtitude(Float longtitude){this.longtitude=longtitude;}
+
+    public Float getLatitude() {
+        return latitude;
+    }
+    public Float getLongtitude() {
+        return longtitude;
+    }
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+    public void setLongtitude(Float longtitude) {
+        this.longtitude = longtitude;
+    }
+
     @Override
-    public String toString(){
-        return latitude.toString()+","+longtitude.toString();
+    public String toString() {
+        return "X: " + longtitude + " Y: " + latitude;
     }
 
     public String toDBString(){
@@ -43,7 +55,7 @@ public class Coords{
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Coords other = (Coords) obj;
+        CoordsEmbedded other = (CoordsEmbedded) obj;
         if (latitude == null) {
             if (other.latitude != null)
                 return false;
@@ -56,4 +68,5 @@ public class Coords{
             return false;
         return true;
     }
+
 }

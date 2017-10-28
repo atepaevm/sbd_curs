@@ -3,6 +3,7 @@ package service.rolling_objects;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import service.objectCommon.ObjectCommon;
 
 import java.util.List;
 
@@ -10,16 +11,24 @@ import java.util.List;
 public class Rolling_Objects_DAO_Impl implements Rolling_Objects_DAO {
 
     private SessionFactory sessionFactory;
-
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     //@Override
-    public void save(Rolling_Objects p) {
+    public void save(ObjectCommon objectCommon, Rolling_Objects rolling_object) {
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        session.persist(p);
+        Integer id = (Integer) session.save(objectCommon);
+        if(id == null){
+            tx.rollback();
+            session.close();
+            return;
+        }
+        objectCommon.setObject_id(id);
+        rolling_object.setObject_id(id);
+        session.save(rolling_object);
+        session.flush();
         tx.commit();
         session.close();
     }

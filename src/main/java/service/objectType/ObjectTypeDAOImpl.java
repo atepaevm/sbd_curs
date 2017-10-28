@@ -11,19 +11,10 @@ import java.util.List;
 public class ObjectTypeDAOImpl implements ObjectTypeDAO {
 
     private SessionFactory sessionFactory;
-
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    //@Override
-    public void save(ObjectType p) {
-        Session session = this.sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.persist(p);
-        tx.commit();
-        session.close();
-    }
     public void update(ObjectType p){
 
         // Prep Work

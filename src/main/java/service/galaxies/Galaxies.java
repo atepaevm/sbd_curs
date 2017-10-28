@@ -1,6 +1,5 @@
 package service.galaxies;
-import org.hibernate.annotations.Type;
-import service.coords.Coords;
+import service.coords.CoordsEmbedded;
 
 import javax.persistence.*;
 
@@ -13,23 +12,25 @@ public class Galaxies {
     private Integer object_id;
 
     @Column(name="galaxy_coordinates")
-    @Type(type="service.coords.CoordsUserType")
-    private Coords galaxy_coordinates;
-/*
-    public Galaxies(Integer id, Coords coords){
-        this.object_id=id;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="latitude", column = @Column(name="galaxy_coordinates.latitude")),
+            @AttributeOverride(name="longtitude", column = @Column(name="galaxy_coordinates.longtitude"))
+    })
+    private CoordsEmbedded galaxy_coordinates;
+    public Galaxies(){};
+    public Galaxies(CoordsEmbedded coords){
         this.galaxy_coordinates = coords;
     }
-*/
     public Integer getObject_id(){
         return this.object_id;
     }
-    public Coords getCoords(){
+    public CoordsEmbedded getCoords(){
         return this.galaxy_coordinates;
     }
 
 
-    public void setGalaxy_coordinates(Coords coords) {
+    public void setGalaxy_coordinates(CoordsEmbedded coords) {
         this.galaxy_coordinates = coords;
     }
     public void setObject_id(Integer id) {
