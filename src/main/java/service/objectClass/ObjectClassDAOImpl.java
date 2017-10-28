@@ -1,4 +1,4 @@
-package service.Objects_Classes;
+package service.objectClass;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 
-public class Objects_Classes_DAO_Impl implements Objects_Classes_DAO{
+public class ObjectClassDAOImpl implements ObjectClassDAO {
 
     private SessionFactory sessionFactory;
 
@@ -16,19 +16,27 @@ public class Objects_Classes_DAO_Impl implements Objects_Classes_DAO{
     }
 
     //@Override
-    public void save(Objects_Classes p) {
+    public void save(ObjectClass p) {
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         session.persist(p);
         tx.commit();
         session.close();
     }
-    public void update(Objects_Classes p){
+
+    public ObjectClass findOne(Integer id){
+        Session session = this.sessionFactory.openSession();
+        ObjectClass retVal = (ObjectClass) session.createQuery("From ObjectClass WHERE id = :id").setParameter("id", id).list().get(0);
+        session.close();
+        return retVal;
+    }
+
+    public void update(ObjectClass p){
 
         // Prep Work
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Objects_Classes emp = (Objects_Classes) session.load(Objects_Classes.class, p.getObject_class_id());
+        ObjectClass emp = (ObjectClass) session.load(ObjectClass.class, p.getObject_class_id());
         emp.setObject_class_name(p.getObject_class_name());
         tx.commit();
 
@@ -37,30 +45,30 @@ public class Objects_Classes_DAO_Impl implements Objects_Classes_DAO{
         //tx = session.beginTransaction();
         //session.update(emp);
         //tx.commit();
-        sessionFactory.close();
+        session.close();
     }
-    public void delete(Objects_Classes p){
+    public void delete(ObjectClass p){
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Object persistentInstance = session.load(Objects_Classes.class, p.getObject_class_id());
+        Object persistentInstance = session.load(ObjectClass.class, p.getObject_class_id());
         if (persistentInstance != null) {
             session.delete(persistentInstance);
         }
         tx.commit();
         session.close();
     }
-    public Objects_Classes read(Objects_Classes p){
+    public ObjectClass read(ObjectClass p){
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        return (Objects_Classes) session.load(Objects_Classes.class, p.getObject_class_id());
+        return (ObjectClass) session.load(ObjectClass.class, p.getObject_class_id());
     }
     @SuppressWarnings("unchecked")
     //@Override
-    public List<Objects_Classes> list() {
+    public List<ObjectClass> list() {
         Session session = this.sessionFactory.openSession();
-        List<Objects_Classes> Objects_ClassesList = session.createQuery("from service.objects_types.Objects_types").list();
+        List<ObjectClass> objectClassList = session.createQuery("from ObjectClass").list();
         session.close();
-        return Objects_ClassesList;
+        return objectClassList;
     }
 
 }

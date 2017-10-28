@@ -1,7 +1,4 @@
-package service.objects_types;
-
-import org.hibernate.annotations.Type;
-import service.coords.Coords;
+package service.objectType;
 
 import javax.persistence.*;
 
@@ -9,8 +6,8 @@ import javax.persistence.*;
  * Created by 12 on 28.10.2017.
  */
 @Entity
-@Table(name="objects_types")
-public class Objects_types {
+@Table(name="Objects_Types")
+public class ObjectType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="object_class_id")
@@ -42,6 +39,6 @@ public class Objects_types {
     }
     @Override
     public String toString(){
-        return "Class id: "+this.object_class_id+" type id: "+this.object_type_name+" type name: "+this.object_type_name;
+        return "Class id: "+this.object_class_id+" type id: "+this.object_type_id+" type name: "+this.object_type_name;
     }
 }

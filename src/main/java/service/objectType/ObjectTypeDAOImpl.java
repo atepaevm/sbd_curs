@@ -1,14 +1,14 @@
-package service.objects_types;
+package service.objectType;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import service.Objects_Classes.Objects_Classes;
+import service.objectClass.ObjectClass;
 
 import java.util.List;
 
 
-public class Objects_Types_DAO_Impl implements Objects_Types_DAO {
+public class ObjectTypeDAOImpl implements ObjectTypeDAO {
 
     private SessionFactory sessionFactory;
 
@@ -17,19 +17,19 @@ public class Objects_Types_DAO_Impl implements Objects_Types_DAO {
     }
 
     //@Override
-    public void save(Objects_types p) {
+    public void save(ObjectType p) {
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         session.persist(p);
         tx.commit();
         session.close();
     }
-    public void update(Objects_types p){
+    public void update(ObjectType p){
 
         // Prep Work
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Objects_types emp = (Objects_types) session.load(Objects_types.class, p.getObject_type_id());
+        ObjectType emp = (ObjectType) session.load(ObjectType.class, p.getObject_type_id());
         emp=p;
        // emp.setObject_class_name(p.getObject_class_name());
         tx.commit();
@@ -41,10 +41,10 @@ public class Objects_Types_DAO_Impl implements Objects_Types_DAO {
         //tx.commit();
         sessionFactory.close();
     }
-    public void delete(Objects_types p){
+    public void delete(ObjectType p){
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Object persistentInstance = session.load(Objects_types.class, p.getObject_type_id());
+        Object persistentInstance = session.load(ObjectType.class, p.getObject_type_id());
         if (persistentInstance != null) {
             session.delete(persistentInstance);
         }
@@ -52,22 +52,22 @@ public class Objects_Types_DAO_Impl implements Objects_Types_DAO {
         session.close();
     }
 
-    public Objects_types read(Objects_types obj) {
+    public ObjectType read(ObjectType obj) {
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        return (Objects_types) session.load(Objects_types.class, obj.getObject_type_id());
+        return (ObjectType) session.load(ObjectType.class, obj.getObject_type_id());
     }
 
-    public Objects_Classes read(Objects_Classes p){
+    public ObjectClass read(ObjectClass p){
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        return (Objects_Classes) session.load(Objects_Classes.class, p.getObject_class_id());
+        return (ObjectClass) session.load(ObjectClass.class, p.getObject_class_id());
     }
     @SuppressWarnings("unchecked")
     //@Override
-    public List<Objects_types> list() {
+    public List<ObjectType> list() {
         Session session = this.sessionFactory.openSession();
-        List<Objects_types> Objects_ClassesList = session.createQuery("from Objects_types").list();
+        List<ObjectType> Objects_ClassesList = session.createQuery("from ObjectType").list();
         session.close();
         return Objects_ClassesList;
     }

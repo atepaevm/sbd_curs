@@ -78,7 +78,7 @@ public class Objects_Common_DAO_Impl implements Objects_Common_DAO {
     //@Override
     public List<Objects_Common> list() {
         Session session = this.sessionFactory.openSession();
-        List<Objects_Common> Objects_ClassesList = session.createQuery("from Objects_Classes").list();
+        List<Objects_Common> Objects_ClassesList = session.createQuery("from objectClass").list();
         session.close();
         return Objects_ClassesList;
     }
