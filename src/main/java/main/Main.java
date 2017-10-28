@@ -3,7 +3,7 @@ package main;
 import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import service.coords.CoordsEmbedded;
+import service.coords.Coords;
 import service.galaxies.Galaxies;
 import service.objectClass.ObjectClass;
 import service.objectClass.ObjectClassDAO;
@@ -33,7 +33,7 @@ public class Main {
         System.out.println(view);
     }
 
-    public static Galaxies createNewGalaxy(Galaxies_DAO galaxiesDao, Integer type, String name, CoordsEmbedded coords){
+    public static Galaxies createNewGalaxy(Galaxies_DAO galaxiesDao, Integer type, String name, Coords coords){
         ObjectCommon objectCommon = new ObjectCommon(name, type);
         Galaxies galaxy = new Galaxies(coords);
         galaxiesDao.save(objectCommon, galaxy);
@@ -52,7 +52,7 @@ public class Main {
         return rollingObject;
     }
 
-    public static Stars createNewStar(Stars_DAO starsDao, String name, Integer type, Integer galaxyId, CoordsEmbedded starCoords, Float distFromSun, Float size, Float mass){
+    public static Stars createNewStar(Stars_DAO starsDao, String name, Integer type, Integer galaxyId, Coords starCoords, Float distFromSun, Float size, Float mass){
         ObjectCommon objectCommon = new ObjectCommon(name, type);
         Stars star = new Stars(galaxyId, starCoords, size, mass, distFromSun);
         starsDao.save(objectCommon, star);
@@ -66,14 +66,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        /*ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
         Stars_DAO starsDao = context.getBean(Stars_DAO.class);
         Galaxies_DAO galaxyDao=context.getBean(Galaxies_DAO.class);
         ObjectClassDAO obj_dao=context.getBean(ObjectClassDAO.class);
         Rolling_Objects_DAO roll_dao=context.getBean(Rolling_Objects_DAO.class);
         ObjectTypeDAO types_dao=context.getBean(ObjectTypeDAO.class);
         ObjectCommonDAO objCommon = context.getBean(ObjectCommonDAO.class);
-
+        */
+        //Test test=new Test();
+        System.out.println(Test.test());
 
         /*
         List<ObjectCommon> list = objCommon.list();
@@ -110,7 +112,7 @@ public class Main {
         System.out.println(star);
         */
 
-        printStar(objCommon.findOne(4), starsDao);
+        //printStar(objCommon.findOne(4), starsDao);
 
 
         /*
@@ -128,6 +130,6 @@ public class Main {
             System.out.println(p);
         }
         */
-        context.close();
+        //context.close();
     }
 }

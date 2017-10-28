@@ -14,7 +14,6 @@ public class Rolling_Objects {
     public Rolling_Objects(Integer orbitsAround){
         this.orbits_around_id = orbitsAround;
     }
-
     public void setObject_id(Integer id){this.object_id=id;}
     public void setOrbits_around_id(Integer orbitsAround){this.orbits_around_id=orbitsAround;}
     public Integer getObject_id(){return object_id;}

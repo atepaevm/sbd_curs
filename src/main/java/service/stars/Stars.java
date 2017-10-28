@@ -1,5 +1,6 @@
 package service.stars;
-import service.coords.CoordsEmbedded;
+import org.hibernate.annotations.Type;
+import service.coords.Coords;
 
 import javax.persistence.*;
 
@@ -11,13 +12,9 @@ public class Stars {
     private Integer object_id;
     @Column(name="galaxy_id")
     private Integer galaxy_id;
+    @Type(type="service.coords.CoordsUserType")
     @Column(name="star_coordinates")
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name="latitude", column = @Column(name="star_coordinates.latitude")),
-            @AttributeOverride(name="longtitude", column = @Column(name="star_coordinates.longtitude"))
-    })
-    private CoordsEmbedded star_coodinates;
+    private Coords star_coodinates;
     @Column(name="star_size")
     private Float star_size;
     @Column(name="star_mass")
@@ -26,7 +23,7 @@ public class Stars {
     private Float star_distnace_from_sun;
 
     public Stars(){};
-    public Stars(Integer galaxyId, CoordsEmbedded starCoords, Float starSize, Float starMass, Float starDist){
+    public Stars(Integer galaxyId, Coords starCoords, Float starSize, Float starMass, Float starDist){
         this.galaxy_id = galaxyId;
         this.star_coodinates = starCoords;
         this.star_size = starSize;
@@ -36,14 +33,14 @@ public class Stars {
 
     public void setObject_id(Integer id){this.object_id=id;}
     public void setGalaxy_id(Integer id){this.galaxy_id=id;}
-    public void setStar_coodinates(CoordsEmbedded id){this.star_coodinates=id;}
+    public void setStar_coodinates(Coords id){this.star_coodinates=id;}
     public void setStar_size(Float id){this.star_size=id;}
     public void setStar_mass(Float id){this.star_mass=id;}
     public void setStar_distnace_from_sun(Float id){this.star_distnace_from_sun=id;}
 
     public Integer getObject_id(){return object_id;}
     public Integer getGalaxy_id(){return galaxy_id;}
-    public CoordsEmbedded getStar_coodinates(){
+    public Coords getStar_coodinates(){
         return star_coodinates;
     }
     public Float getStar_size(){return star_size;}

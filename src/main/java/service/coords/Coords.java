@@ -1,38 +1,30 @@
 package service.coords;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+/**
+ * Created by 12 on 24.10.2017.
+ */
 
-@Embeddable
-public class CoordsEmbedded {
-    @Column(name="latitude", nullable = false)
+public class Coords{
+
     private Float latitude;
-    @Column(name="longtitude", nullable = false)
     private Float longtitude;
 
-    public CoordsEmbedded(){}
-
-    public CoordsEmbedded(Float longtitude, Float latitude){
-        this.latitude = latitude;
-        this.longtitude = longtitude;
+    public Coords(Float latitude,Float longtitude){
+        this.latitude=latitude;
+        this.longtitude=longtitude;
     }
-
-    public Float getLatitude() {
-        return latitude;
-    }
-    public Float getLongtitude() {
-        return longtitude;
-    }
-    public void setLatitude(Float latitude) {
-        this.latitude = latitude;
-    }
-    public void setLongtitude(Float longtitude) {
-        this.longtitude = longtitude;
-    }
-
+    public Coords(){}
+    public Float getLatitude(){return latitude;}
+    public Float getLongtitude(){return longtitude;}
+    public void setLatitude(Float latitude){this.latitude=latitude;}
+    public void setLongtitude(Float longtitude){this.longtitude=longtitude;}
     @Override
-    public String toString() {
-        return "X: " + longtitude + " Y: " + latitude;
+    public String toString(){
+        return latitude.toString()+","+longtitude.toString();
+    }
+
+    public String toDBString(){
+        return "ROW(" + this.getLatitude() + "," + this.getLongtitude() + ")";
     }
 
     @Override
@@ -51,7 +43,7 @@ public class CoordsEmbedded {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CoordsEmbedded other = (CoordsEmbedded) obj;
+        Coords other = (Coords) obj;
         if (latitude == null) {
             if (other.latitude != null)
                 return false;
@@ -64,5 +56,4 @@ public class CoordsEmbedded {
             return false;
         return true;
     }
-
 }
