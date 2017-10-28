@@ -54,4 +54,14 @@ public class Test {
         context.close();
         return true;
     }
+    public static boolean testDelete(Integer id){
+        Galaxies g=galaxyDao.read(randomGalaxy(id));
+        Integer oldId=g.getObject_id();
+        galaxyDao.delete(g);
+        g.setObject_id(oldId);
+        Galaxies newG=galaxyDao.read(g);
+        if(null==newG)
+            return true;
+        return false;
+    }
 }
