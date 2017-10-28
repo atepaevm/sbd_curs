@@ -1,6 +1,4 @@
-package service;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+package service.coords;
 
 /**
  * Created by 12 on 24.10.2017.
@@ -22,11 +20,11 @@ public class Coords{
     public void setLongtitude(Float longtitude){this.longtitude=longtitude;}
     @Override
     public String toString(){
-        return "X: "+latitude.toString()+" Y: "+longtitude.toString();
+        return latitude.toString()+","+longtitude.toString();
     }
 
     public String toDBString(){
-        return "(" + this.longtitude + "," + this.latitude + ")";
+        return "ROW(" + this.getLatitude() + "," + this.getLongtitude() + ")";
     }
 
     @Override

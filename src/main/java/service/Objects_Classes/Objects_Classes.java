@@ -1,4 +1,4 @@
-package service;
+package service.Objects_Classes;
 import javax.persistence.*;
 @Entity
 @Table(name="objects_classes")

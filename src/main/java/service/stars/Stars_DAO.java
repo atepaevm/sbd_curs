@@ -1,4 +1,4 @@
-package service;
+package service.stars;
 
 import java.util.List;
 

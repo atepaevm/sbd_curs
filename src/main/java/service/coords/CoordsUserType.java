@@ -1,12 +1,9 @@
-package service;
+package service.coords;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.StringTokenizer;
 
 public class CoordsUserType implements UserType {
@@ -37,7 +34,10 @@ public class CoordsUserType implements UserType {
 
     public void nullSafeSet(PreparedStatement preparedStatement, Object o, int i) throws HibernateException, SQLException {
         Coords obj = (Coords)o;
-        preparedStatement.setString(i, "(" + obj.getLatitude() + "," + obj.getLongtitude() + ")" );
+        //preparedStatement.setObject(obj);
+        //preparedStatement=con.prepareStatement("(?,?)");
+       preparedStatement.setObject(i,"("+obj.getLatitude()+","+obj.getLongtitude() + ")");
+        //preparedStatement.setString(i, "(" + obj.getLatitude() + " , " + obj.getLongtitude() + ")" );
     }
 
     public Object deepCopy(Object o) throws HibernateException {

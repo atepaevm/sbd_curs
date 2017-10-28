@@ -1,7 +1,7 @@
-package service;
+package service.stars;
 
-import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
+import service.coords.Coords;
 
 import javax.persistence.*;
 
@@ -14,19 +14,8 @@ public class Stars {
     private Integer object_id;
     @Column(name="galaxy_id")
     private Integer galaxy_id;
-    /*@Columns(columns = {
-            @Column(name = "latitude"),
-            @Column(name = "longtitude")
-    }
-    )*/
-    /*
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name="latitude",column=@Column(name="latitude")),
-            @AttributeOverride(name="longtitude",column=@Column(name="longtitude"))
-    })*/
     @Column(name="star_coordinates")
-    @Type(type="service.CoordsUserType")
+    @Type(type="service.coords.CoordsUserType")
     private Coords star_coodinates;
     @Column(name="star_size")
     private Float star_size;
@@ -52,5 +41,7 @@ public class Stars {
     public Float getStar_distnace_from_sun(){return star_distnace_from_sun;}
 
     @Override
-    public String toString(){return "id: "+this.getObject_id()+" galaxy id: "+this.getGalaxy_id();}
+    public String toString(){return "id: "+this.getObject_id()+" galaxy id: "+this.getGalaxy_id()+
+            " Coords: "+this.getStar_coodinates()+" Size: "+this.getStar_size()+" Mass: "+this.getStar_mass()+
+            " Distance: "+this.getStar_distnace_from_sun();}
 }
