@@ -13,7 +13,6 @@ public class Galaxies {
     private Integer object_id;
     @Column(name="galaxy_coordinates")
     @Type(type="service.coords.CoordsUserType")
-
     private Coords galaxy_coordinates;
     public Galaxies(){};
     public Galaxies(Coords coords){

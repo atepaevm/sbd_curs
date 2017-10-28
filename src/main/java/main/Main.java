@@ -75,8 +75,9 @@ public class Main {
         ObjectCommonDAO objCommon = context.getBean(ObjectCommonDAO.class);
         */
         //Test test=new Test();
-        System.out.println(Test.test());
-
+        System.out.println(Test.testUpdate(2));
+        System.out.println(Test.testUpdate(12));
+        System.out.println(Test.testUpdate(17));
         /*
         List<ObjectCommon> list = objCommon.list();
         for(ObjectCommon p : list){
