@@ -17,12 +17,19 @@ import service.rolling_objects.Rolling_Objects_DAO;
 import service.stars.Stars;
 import service.stars.Stars_DAO;
 import view.ObjectTypeView;
+import view.StarView;
 
 public class Main {
 
     public static void printObjectType(ObjectType type, ObjectClassDAO objDao){
         ObjectClass objectClass = objDao.findOne(type.getObject_class_id());
         ObjectTypeView view = new ObjectTypeView(objectClass, type);
+        System.out.println(view);
+    }
+
+    public static void printStar(ObjectCommon objectCommon, Stars_DAO starsDao){
+        Stars star = starsDao.findOne(objectCommon.getObject_id());
+        StarView view = new StarView(star, objectCommon);
         System.out.println(view);
     }
 
@@ -98,8 +105,13 @@ public class Main {
         printList(list);
         */
 
+        /*
         Stars star = createNewStar(starsDao, "Звезда", 7, 17, new CoordsEmbedded(0.5f, 2.5f), 2.0f, 2f, 1.4f);
         System.out.println(star);
+        */
+
+        printStar(objCommon.findOne(4), starsDao);
+
 
         /*
         System.out.println("saving:");

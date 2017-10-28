@@ -9,6 +9,7 @@ public interface Stars_DAO {
     public void save(ObjectCommon objectCommon, Stars star);
     public void update(Stars obj);
     public void delete(Stars obj);
+    public Stars findOne(Integer id);
     public Stars read(Stars obj);
     public List<Stars> list();
 }

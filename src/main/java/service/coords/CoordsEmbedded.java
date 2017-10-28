@@ -35,10 +35,6 @@ public class CoordsEmbedded {
         return "X: " + longtitude + " Y: " + latitude;
     }
 
-    public String toDBString(){
-        return "ROW(" + this.getLatitude() + "," + this.getLongtitude() + ")";
-    }
-
     @Override
     public int hashCode(){
         final int prime = 31;

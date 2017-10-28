@@ -32,6 +32,21 @@ public class Stars_DAO_Impl implements Stars_DAO{
         tx.commit();
         session.close();
     }
+
+    public Stars findOne(Integer id){
+        Session session = this.sessionFactory.openSession();
+
+        Stars retVal = (Stars)session.createSQLQuery("SELECT object_id, galaxy_id, (star_coordinates).latitude as \"star_coordinates.latitude\", " +
+                "star_distance_from_sun, star_mass, star_size FROM stars WHERE object_id = :id").addEntity(Stars.class).setParameter("id", id).list().get(0);
+
+        /*
+        Stars retVal = (Stars)session.createQuery("From Stars WHERE object_id = :id")
+                .setParameter("id", id).list().get(0);
+        */
+        session.close();
+        return retVal;
+    }
+
     public void update(Stars p){
 
         // Prep Work
