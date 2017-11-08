@@ -66,6 +66,78 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
         System.out.println(Test.test());
+
+        /*ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        Stars_DAO starsDao = context.getBean(Stars_DAO.class);
+        Galaxies_DAO galaxyDao=context.getBean(Galaxies_DAO.class);
+        ObjectClassDAO obj_dao=context.getBean(ObjectClassDAO.class);
+        Rolling_Objects_DAO roll_dao=context.getBean(Rolling_Objects_DAO.class);
+        ObjectTypeDAO types_dao=context.getBean(ObjectTypeDAO.class);
+        ObjectCommonDAO objCommon = context.getBean(ObjectCommonDAO.class);
+        */
+        //Test test=new Test();
+        if(Test.test()){
+            System.out.println("Успехъ");
+        } else {
+            System.err.println("Обломъ");
+        }
+
+        /*
+        List<ObjectCommon> list = objCommon.list();
+        for(ObjectCommon p : list){
+            System.out.println(p);
+        }*/
+
+        /*List<ObjectType> list = types_dao.list();
+        List<ObjectType> list = types_dao.list();
+        for(ObjectType p : list){
+            printObjectType(p, obj_dao);
+        }*/
+
+
+        /*
+        List<Galaxies> list = galaxyDao.list();
+        printList(list);
+        Galaxies g = list.get(0);
+        g.setGalaxy_coordinates(new Coords(2.5f,2.5f));
+        galaxyDao.update(g);
+        printList(list);
+        */
+
+        /*
+        List<Galaxies> list = galaxyDao.list();
+        printList(list);
+        galaxyDao.delete(list.get(3));
+        list = galaxyDao.list();
+        printList(list);
+        */
+
+        /*
+        Stars star = createNewStar(starsDao, "Звезда", 7, 17, new CoordsEmbedded(0.5f, 2.5f), 2.0f, 2f, 1.4f);
+        System.out.println(star);
+        */
+
+        //printStar(objCommon.findOne(4), starsDao);
+
+
+        /*
+        System.out.println("saving:");
+        Stars star=new Stars();
+        star.setObject_id(4);
+        star.setGalaxy_id(1);
+        star.setStar_coodinates(new Coords(new Float(1),new Float(1)));
+        star.setStar_mass(new Float(123));
+        star.setStar_size(new Float(123));
+        star.setStar_mass(new Float(123));
+        star.setStar_distnace_from_sun(new Float(123));
+        starsDao.update(star);
+        for(Stars p : list){
+            System.out.println(p);
+        }
+        */
+        //context.close();
+
     }
 }
