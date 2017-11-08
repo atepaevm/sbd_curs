@@ -1,13 +1,12 @@
 package main;
 
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.coords.Coords;
 import service.galaxies.Galaxies;
 import service.galaxies.Galaxies_DAO;
 import service.objectCommon.ObjectCommon;
-import service.stars.Stars_DAO;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -25,7 +24,7 @@ public class Test {
         return g;
     }
 
-    private static boolean testInsert(String name, Integer objectType, Coords galaxyCoords){
+    private static Integer testInsert(String name, Integer objectType, Coords galaxyCoords){
         ObjectCommon objectCommon = new ObjectCommon(name, objectType);
         Galaxies galaxy = new Galaxies(galaxyCoords);
         galaxyDao.save(objectCommon, galaxy);
@@ -34,7 +33,7 @@ public class Test {
         gal.setObject_id(galaxy.getObject_id());
         gal = galaxyDao.read(gal);
 
-        return galaxy.getObject_id() != null && gal.getCoords().equals(galaxy.getCoords());
+        return (galaxy.getObject_id() != null && gal.getCoords().equals(galaxy.getCoords())) ? galaxy.getObject_id() : null;
     }
 
 
@@ -49,19 +48,35 @@ public class Test {
     public static boolean test(){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
         galaxyDao = context.getBean(Galaxies_DAO.class);
-        //вызов функций
-
+        Integer galaxyId = testInsert("Что-то", 4, new Coords(0.5f, 0.5f));
+        if(galaxyId != null){
+            Boolean upd, del;
+            upd = testUpdate(galaxyId);
+            if(! upd){
+                System.err.println("Update failed");
+            }
+            del = testDelete(galaxyId);
+            if(!del){
+                System.err.println("Delete failed");
+            }
+            context.close();
+            return upd && del;
+        }
+        System.err.println("Insert failed");
         context.close();
-        return true;
+        return false;
     }
     public static boolean testDelete(Integer id){
         Galaxies g=galaxyDao.read(randomGalaxy(id));
         Integer oldId=g.getObject_id();
         galaxyDao.delete(g);
         g.setObject_id(oldId);
-        Galaxies newG=galaxyDao.read(g);
-        if(null==newG)
+        try {
+            Galaxies newG=galaxyDao.read(g);
+            System.out.println(newG);
+            return false;
+        } catch (Exception e) {
             return true;
-        return false;
+        }
     }
 }

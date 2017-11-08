@@ -75,6 +75,11 @@ public class Main {
         ObjectCommonDAO objCommon = context.getBean(ObjectCommonDAO.class);
         */
         //Test test=new Test();
+        if(Test.test()){
+            System.out.println("Успехъ");
+        } else {
+            System.err.println("Обломъ");
+        }
 
         /*
         List<ObjectCommon> list = objCommon.list();

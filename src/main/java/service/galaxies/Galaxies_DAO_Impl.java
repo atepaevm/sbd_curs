@@ -39,8 +39,12 @@ public class Galaxies_DAO_Impl implements Galaxies_DAO {
 
     public void delete(Galaxies obj) {
         Session session = this.sessionFactory.openSession();
-        session.createSQLQuery("SELECT delete_galaxy(:id);")
-                .setParameter("id", obj.getObject_id()).list();
+        try {
+            session.createSQLQuery("SELECT delete_galaxy(:id);")
+                    .setParameter("id", obj.getObject_id()).list();
+        }catch (Exception e){
+
+        }
         session.close();
     }
 
